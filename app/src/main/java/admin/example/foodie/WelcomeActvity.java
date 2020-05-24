@@ -33,10 +33,10 @@ public class WelcomeActvity extends AppCompatActivity {
 
 
         if (token == null) {
-            SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
+                SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
 
-            token = sharedPreferences.getString("token", null);
+                token = sharedPreferences.getString("token", null);
         }
 
         //If a token is set we will start main activity on startin our app

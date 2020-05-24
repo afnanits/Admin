@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.wealdtech.hawk:hawk-core:1.2.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.wealdtech.hawk/hawk-core/1.2.0/edcb91768260f8bef9f7338052f460e0bcb99a74/hawk-core-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.wealdtech.hawk/hawk-core/1.2.0/638bd5856476d3872d5c32c51216ced2e2bfa1bb/hawk-core-1.2.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.wealdtech.hawk/hawk-core/1.2.0/911d77a8eb83c8cefadcc0848a4aa9c62a462206/hawk-core-1.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

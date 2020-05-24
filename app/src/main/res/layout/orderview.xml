@@ -18,14 +18,22 @@
        >
 
         <TextView
-            android:id="@+id/restaurantName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
+            android:layout_marginLeft="10dp"
+            android:text="Custtomer:"
+            android:textStyle="bold"
+            android:textSize="@dimen/_10sdp"
+            />
+        <TextView
+            android:id="@+id/restaurantName"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_70sdp"
             android:text="Restaurant name"
 
-
-            android:textSize="30dp" />
+            />
 
         <TextView
             android:id="@+id/itemName"
@@ -66,9 +74,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/foodList"
-            android:layout_marginLeft="@dimen/_250sdp"
+            android:layout_marginLeft="@dimen/_200sdp"
             android:layout_marginTop="@dimen/_18sdp"
-            android:text="total price" />
+            android:text="total price"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -82,7 +91,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/total"
-            android:layout_marginLeft="@dimen/_220sdp"
+            android:layout_marginLeft="@dimen/_100sdp"
             android:layout_marginTop="@dimen/_25sdp"
             android:text="date" />
         <androidx.recyclerview.widget.RecyclerView

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.wealdtech:wealdtech-configuration:2.0.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.wealdtech/wealdtech-configuration/2.0.0/d3f4b4437bb9d4b26190a43be89966ef9e5e8ee6/wealdtech-configuration-2.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.wealdtech/wealdtech-configuration/2.0.0/329b2e793d0c97ae982c70a3d2ffc2fc08711388/wealdtech-configuration-2.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.wealdtech/wealdtech-configuration/2.0.0/f73ff033a39ab37698ad19f76c88301ccb1235b/wealdtech-configuration-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

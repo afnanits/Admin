@@ -43,7 +43,9 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
 
         holder.total.setText(String.valueOf(getTotal(items.get(position).getFoodList())));
 
-        holder.restaurantName.setText(items.get(position).getRestaurant().getName());
+        holder.restaurantName.setText(items.get(position).getUser().getName());
+
+        holder.paymentMode.setText(items.get(position).getPayment().getMethod());
 
 
         adapter= new FoodListAdapter(context);
@@ -73,7 +75,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
             private TextView restaurantName;
             private TextView total;
             private RecyclerView recyclerView;
-
+            private TextView paymentMode;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -81,7 +83,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
             restaurantName=view.findViewById(R.id.restaurantName);
             total=view.findViewById(R.id.total);
             recyclerView=view.findViewById(R.id.foodList);
-
+            paymentMode=view.findViewById(R.id.mode);
 
 
         }

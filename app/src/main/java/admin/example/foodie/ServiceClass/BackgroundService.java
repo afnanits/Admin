@@ -47,7 +47,7 @@ public class BackgroundService extends Service {
     private Handler mHandler;
     // default interval for syncing data
     public static final long DEFAULT_SYNC_INTERVAL = 5*1000;//30 sec
-
+    String token=WelcomeActvity.token;
     String json;
     MainActivity activity=new MainActivity();
     Gson gson = new Gson();
@@ -69,13 +69,31 @@ public class BackgroundService extends Service {
         @Override
         public void run() {
             //order=new Order(new User("8840102246",""),)
-            syncData(WelcomeActvity.token);
+            syncData(token);
             createNotificationChannel();
 
             // Repeat this runnable code block again every ... min
             mHandler.postDelayed(runnableService, DEFAULT_SYNC_INTERVAL);
         }
     };
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        token = sharedPreferences.getString("token", null);
+
+        mHandler = new Handler();
+        // Execute a runnable task as soon as possible
+        mHandler.post(runnableService);
+
+
+
+
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -127,8 +145,8 @@ public class BackgroundService extends Service {
 
     public void sendNotification(Order order) {
         // Create an explicit intent for an Activity in your app
-        Intent intent = new Intent(this, OrdersFragment.class);
-
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("notification","jfjfb");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder builder;
@@ -207,6 +225,22 @@ public class BackgroundService extends Service {
         }
         return sum;
     }
+
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+
+
+        Intent restartServiceIntent = new Intent(getApplicationContext(),this.getClass());
+
+        restartServiceIntent.setPackage(getPackageName());
+
+        //   mHandler, Context.BIND_AUTO_CREATE);
+        startService(restartServiceIntent);
+
+        super.onTaskRemoved(rootIntent);
+    }
+
 
 
 }

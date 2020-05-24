@@ -82,9 +82,13 @@ public class MainActivity extends AppCompatActivity {
         Intent i = getIntent();
         token = i.getStringExtra("token");
         user = i.getStringExtra("name");
+if (getIntent().getStringExtra("notification")!=null) {
+    SharedPreferences sharedPreferencess = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-
-        if (token != null) {
+    token = sharedPreferencess.getString("token", null);
+}
+if (token != null) {
             Log.i("TOKEN", token);
             if (WelcomeActvity.getInstance() != null)
                 WelcomeActvity.getInstance().finish();
@@ -106,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             if (WelcomeActvity.getInstance() != null)
                 WelcomeActvity.getInstance().finish();
         }
-       Log.d("Token",token);
+   Log.d("Token",token);
         //BackgroundService service= new BackgroundService(getApplication());
 
 
@@ -141,18 +145,40 @@ public class MainActivity extends AppCompatActivity {
         mDrawer.addDrawerListener(toggle);
         toggle.syncState();
 
-       fragmentManager = getSupportFragmentManager();
-        try {
-            fragmentManager.beginTransaction().replace(R.id.flContent, AllFoodsFragment.class.newInstance(), "Home");
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        if(getIntent().getStringExtra("notification")!=null){
+
+
+            fragmentManager = getSupportFragmentManager();
+            try {
+                fragmentManager.beginTransaction().replace(R.id.flContent, OrdersFragment.class.newInstance(), "Orders");
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            //set default fragment
+            loadFragment(new OrdersFragment());
+
+
+
+
         }
-        //set default fragment
-        loadFragment(new AllFoodsFragment());
 
 
+        else{
+
+            fragmentManager = getSupportFragmentManager();
+            try {
+                fragmentManager.beginTransaction().replace(R.id.flContent, AllFoodsFragment.class.newInstance(), "Home");
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+            //set default fragment
+            loadFragment(new AllFoodsFragment());
+
+        }
         // We can now look up items within the header if needed
 
         // ImageView ivHeaderPhoto = headerLayout.findViewById(R.id.imageView);
