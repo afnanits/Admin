@@ -1,12 +1,17 @@
 package admin.example.foodie.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class UpdateInfo {
-
+    @SerializedName("name")
     private String name;
+    @SerializedName("address")
     private String address;
+    @SerializedName("password")
     private String password;
+    @SerializedName("contactNos")
     private List<String> contactNos;
 
     public UpdateInfo(String name , String address , String password , List<String> contactNos) {

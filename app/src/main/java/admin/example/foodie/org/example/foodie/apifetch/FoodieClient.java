@@ -69,8 +69,8 @@ public interface FoodieClient {
 
 
     //update user info
-    @PATCH("restaurant")
-    Call<UpdateResponse> updateInfo(@Header("Authorization") String token, UpdateInfo updateInfo);
+    @PATCH("restaurant/")
+    Call<ResponseBody> updateInfo(@Header("Authorization") String token,@Body UpdateInfo updateInfo);
 
 
 

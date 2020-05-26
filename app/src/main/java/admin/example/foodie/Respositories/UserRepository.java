@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import admin.example.foodie.FragmentClass.AddFoodFragment;
+import admin.example.foodie.WelcomeActvity;
 import admin.example.foodie.models.ResponseUser;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import admin.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
@@ -38,7 +39,7 @@ public class UserRepository {
 
         MutableLiveData<ResponseUser> userData = new MutableLiveData<>();
 
-        Call<ResponseUser> call = foodieClient.getData(AddFoodFragment.token);
+        Call<ResponseUser> call = foodieClient.getData(WelcomeActvity.token);
 
         call.enqueue(new Callback<ResponseUser>() {
             @Override

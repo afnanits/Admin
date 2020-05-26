@@ -118,19 +118,6 @@ public class AllFoodsFragment extends Fragment {
 
     public AllFoodsFragment getInstace(){return AllFoodsFragment.this;}
 
-//public void refreshActivity(){
-//    finish();
-//    startActivity(getIntent());
-//}
-
-
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        finish();
-//
-//    }
-
 
     public void deleteFood(String id){
         FoodieClient foodieClient= ServiceGenerator.createService(FoodieClient.class);
@@ -144,11 +131,6 @@ public class AllFoodsFragment extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-              /*  finish();
-                startActivity(getIntent());
-*/
-              //  Toast.makeText(getApplicationContext(),"DELETED",Toast.LENGTH_SHORT).show();
-          //      loadFood.setVisibility(View.GONE);
                 Log.i("DELETED", String.valueOf(response.body()));
             }
 
@@ -163,9 +145,7 @@ public class AllFoodsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-/*
-        if(item.getItemId()==R.id.home)onBackPressed();
-*/
+
 
         return super.onOptionsItemSelected(item);
     }

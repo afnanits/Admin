@@ -154,8 +154,19 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.838" />
 
+
+
                 </LinearLayout>
             </LinearLayout>
+            <ProgressBar
+                android:id="@+id/loader"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true" />
+
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

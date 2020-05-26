@@ -68,6 +68,7 @@ public class UpdateFragments extends Fragment {
     FoodieClient foodieClient;
     EditText NameUpdate,AddressUpdate,PhoneUpdate,PasswordUpdate;
     Button Update;
+    ProgressBar loader;
      List<String> contactNos=new ArrayList<String>();
      String name=null,address=null,phone=null,password=null;
      View rootview;
@@ -78,7 +79,7 @@ public class UpdateFragments extends Fragment {
         // Inflate the layout for this fragment
         rootview=inflater.inflate(R.layout.activity_update , container , false);
 
-
+loader=rootview.findViewById(R.id.loader);
         captureImage =(Button) rootview.findViewById(R.id.capture_image);
         selectImage =(Button) rootview.findViewById(R.id.select_image);
         imageView = (ImageView) rootview.findViewById(R.id.Image_view);
@@ -88,15 +89,7 @@ public class UpdateFragments extends Fragment {
         PhoneUpdate=(EditText) rootview.findViewById(R.id.RestaurantPhoneUpdate);
         PasswordUpdate=(EditText) rootview.findViewById(R.id.RestaurantPasswordUpdate);
         Update=(Button)rootview.findViewById(R.id.RestaurantInfoUpdate);
-
-        if (NameUpdate!=null) {
-            name = NameUpdate.getText().toString();
-            address = AddressUpdate.getText().toString();
-            password = PasswordUpdate.getText().toString();
-            if (PhoneUpdate.getText() != null) {
-                contactNos.add(PhoneUpdate.getText().toString());
-            }
-        }
+        loader.setVisibility(View.VISIBLE);
 
         update.setVisibility(View.VISIBLE);
         String[] galleryPermissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -151,7 +144,31 @@ public class UpdateFragments extends Fragment {
         Update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UpdateInfo();
+                Update.setClickable(false);
+                loader.setVisibility(View.VISIBLE);
+                if (String.valueOf(NameUpdate.getText()).length()!=0&&String.valueOf(AddressUpdate.getText()).length()!=0&&
+                        String.valueOf(PasswordUpdate.getText()).length()!=0) {
+                    name = NameUpdate.getText().toString();
+                    address = AddressUpdate.getText().toString();
+                    password = PasswordUpdate.getText().toString();
+
+
+                    if (String.valueOf(PhoneUpdate.getText()).length()>=10) {
+                        contactNos.add(PhoneUpdate.getText().toString());
+                        UpdateInfo();
+                    }
+                    else{Update.setClickable(true);loader.setVisibility(View.GONE);
+                        Toast.makeText(getActivity(),"Enter VAlid Phone number",Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else{Update.setClickable(true);loader.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(),"Empty Fields not Allowed",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+
+
             }
         });
 
@@ -170,18 +187,24 @@ public class UpdateFragments extends Fragment {
         foodieClient = ServiceGenerator.createService(FoodieClient.class);
 
         UpdateInfo updateInfo  =new UpdateInfo(name, address, password, contactNos);
-         Call<UpdateResponse> call=foodieClient.updateInfo(WelcomeActvity.token,updateInfo);
-         call.enqueue(new Callback<UpdateResponse>() {
+         Call<ResponseBody> call=foodieClient.updateInfo(WelcomeActvity.token,updateInfo);
+         call.enqueue(new Callback<ResponseBody>() {
              @Override
-             public void onResponse(Call<UpdateResponse> call , Response<UpdateResponse> response) {
+             public void onResponse(Call<ResponseBody> call , Response<ResponseBody> response) {
                  if (response.code()==200) {
                      Toast.makeText(getActivity() , "Information Updated successfully" , Toast.LENGTH_SHORT).show();
+
                  }
-             }
+                 else{
+                     Log.i("responseupdate", response.message());
+                 }
+                 Update.setClickable(true);
+                 loader.setVisibility(View.GONE);}
 
              @Override
-             public void onFailure(Call<UpdateResponse> call , Throwable t) {
-
+             public void onFailure(Call<ResponseBody> call , Throwable t) {
+                 Log.i("responseupdate",t.getMessage());
+                 Update.setClickable(true);loader.setVisibility(View.GONE);
              }
          });
 
@@ -294,12 +317,14 @@ public class UpdateFragments extends Fragment {
             e.printStackTrace();
         }
 
+
 //Convert bitmap to byte array
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 0,/*0 ignored for PNG,*/ bos);
         byte[] bitmapdata = bos.toByteArray();
 
         Log.i("START","STARTED");
+
 //write the bytes in file
         FileOutputStream fos = null;
         try {
@@ -346,7 +371,7 @@ public class UpdateFragments extends Fragment {
                 update.setVisibility(View.GONE);
             }
 
-
+            loader.setVisibility(View.GONE);
         });
 
     }

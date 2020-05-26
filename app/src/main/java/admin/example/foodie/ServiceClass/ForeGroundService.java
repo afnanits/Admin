@@ -1,5 +1,6 @@
 package admin.example.foodie.ServiceClass;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -25,37 +26,82 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import admin.example.foodie.FragmentClass.AddFoodFragment;
-import admin.example.foodie.FragmentClass.OrdersFragment;
 import admin.example.foodie.MainActivity;
 import admin.example.foodie.WelcomeActvity;
 import admin.example.foodie.models.Order;
 import admin.example.foodie.models.OrderFood;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import admin.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
+public class ForeGroundService extends Service {
+    public static final String CHANNEL_ID = "ForegroundServiceDemo1";
 
-public class BackgroundService extends Service {
-    private static final String CHANNEL_ID = "1";
-    Retrofit retrofit;
-    public Order order;
+    int DEFAULT_SYNC_INTERVAL=30*1000;
+    String token= WelcomeActvity.token;
+    List<Order> viewList;
     private Handler mHandler;
-    // default interval for syncing data
-    public static final long DEFAULT_SYNC_INTERVAL = 5*1000;//30 sec
-    String token=WelcomeActvity.token;
+
+
+
     String json;
-    MainActivity activity=new MainActivity();
+    //  MainActivity activity=new MainActivity();
     Gson gson = new Gson();
 
-    Context context;
+    Context context=WelcomeActvity.getInstance();
 
 
-    public List<Order> viewList = new ArrayList<>();
+    @Override
+    public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
+
+
+        mHandler = new Handler();
+
+        if (viewList==null)getPrefernce(getSharedPreferences("org.example.foodie",MODE_PRIVATE));
+
+        SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        getPrefernce(sharedPreferences);
+
+        token = sharedPreferences.getString("token", null);
+
+        mHandler.post(runnableService);
+        startInForeground();
+        return START_STICKY;
+    }
+
+
+
+    private Runnable runnableService = new Runnable() {
+        @Override
+        public void run() {
+            //order=new Order(new User("8840102246",""),)
+
+            Log.i("Running","true");
+
+
+
+            syncData(token);
+
+
+
+            //syncData(token);
+            createNotificationChannel();
+
+            // Repeat this runnable code block again every ... min
+            mHandler.postDelayed(runnableService, DEFAULT_SYNC_INTERVAL);
+        }
+    };
+
+
+
+
+
+
+
+
 
 
     @Nullable
@@ -64,46 +110,28 @@ public class BackgroundService extends Service {
         return null;
     }
 
-    // task to be run here
-    private Runnable runnableService = new Runnable() {
-        @Override
-        public void run() {
-            //order=new Order(new User("8840102246",""),)
-            syncData(token);
-            createNotificationChannel();
-
-            // Repeat this runnable code block again every ... min
-            mHandler.postDelayed(runnableService, DEFAULT_SYNC_INTERVAL);
+    private void startInForeground() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel serviceChannel = new NotificationChannel(
+                    CHANNEL_ID,
+                    "Example Service Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(serviceChannel);
         }
-    };
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-
-        token = sharedPreferences.getString("token", null);
-
-        mHandler = new Handler();
-        // Execute a runnable task as soon as possible
-        mHandler.post(runnableService);
-
-
-
-
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, notificationIntent, 0);
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText("Checking For new Orders")
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentIntent(pendingIntent)
+                .build();
+        startForeground(1, notification);
     }
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        // Create the Handler object
-        mHandler = new Handler();
-        // Execute a runnable task as soon as possible
-        mHandler.post(runnableService);
-
-        return START_STICKY;
-    }
 
     private synchronized void syncData(String token) {
         FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
@@ -119,16 +147,16 @@ public class BackgroundService extends Service {
                 Log.i("Message", String.valueOf(response.code()));
 
                 if (response.body()!=null)
-                if (response.body().size() != 0) {
-                    Log.i("ResponseUser", response.body().get(0).getUser().getName());
-                   for (int i=0;i<response.body().size();i++){
-                       viewList.add(response.body().get(i));
-                       sendNotification(response.body().get(i));
-                   }
+                    if (response.body().size() != 0) {
+                        Log.i("ResponseUser", response.body().get(0).getUser().getName());
+                        for (int i=0;i<response.body().size();i++){
+                            viewList.add(response.body().get(i));
+                            sendNotification(response.body().get(i));
+                        }
 
-                    saveData(sharedPreferences);
+                        saveData(sharedPreferences);
 
-                }
+                    }
             }
 
             @Override
@@ -138,7 +166,7 @@ public class BackgroundService extends Service {
         });
 
 
-     //   Toast.makeText(this, "I am running in background", Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(this, "I am running in background", Toast.LENGTH_SHORT).show();
         Log.d("service: ", "running");
         // call your rest service here
     }
@@ -227,12 +255,14 @@ public class BackgroundService extends Service {
     }
 
 
+
+
     @Override
     public void onTaskRemoved(Intent rootIntent) {
 
 
         Intent restartServiceIntent = new Intent(getApplicationContext(),this.getClass());
-
+        restartServiceIntent.putExtra("token",token);
         restartServiceIntent.setPackage(getPackageName());
 
         //   mHandler, Context.BIND_AUTO_CREATE);
@@ -243,15 +273,6 @@ public class BackgroundService extends Service {
 
 
 
+
+
 }
-
-
-
-
-
-
-
-
-
-
-

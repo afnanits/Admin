@@ -71,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
         InputPassword = (EditText) findViewById(R.id.register_password_input);
         InputAddress = (EditText) findViewById(R.id.register_address_input);
         RestaurantIdInput=(EditText)findViewById(R.id.register_restaurantId_input);
+
     }
     public void CreateUser(String name, String email, String password, String address, String phone) {
         user = new User(name, email, password, address, phone);
@@ -81,11 +82,12 @@ public class RegisterActivity extends AppCompatActivity {
 
        FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
        superAdminUser=new SuperAdminUser(username,password);
+       contactNos.add(InputPhoneNumber.getText().toString());
        restaurantUser=new RestaurantUser(InputName.getText().toString(),
                RestaurantIdInput.getText().toString(),
                InputAddress.getText().toString(),
                InputPassword.getText().toString(),
-               contactNos);
+             contactNos );
        RestaurantCreate restaurantCreate=new RestaurantCreate(superAdminUser,restaurantUser);
        Call<ResponseUser> call2=foodieClient.createRestaurant(restaurantCreate);//just post::Response class for this should be made;
        progressBar.setVisibility(View.VISIBLE);

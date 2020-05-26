@@ -45,12 +45,6 @@ public class OrdersFragment extends Fragment {
         orderRecView = rootView.findViewById(R.id.allOrders);
 
 
-/*
-            toolbar=findViewById(R.id.toolbar);
-            setSupportActionBar(toolbar);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Orders");
-*/
 
         getPrefernce(preferences);
 

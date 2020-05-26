@@ -34,7 +34,6 @@ import admin.example.foodie.FragmentClass.AllFoodsFragment;
 import admin.example.foodie.FragmentClass.ContactUsFragments;
 import admin.example.foodie.FragmentClass.OrdersFragment;
 import admin.example.foodie.FragmentClass.UpdateFragments;
-import admin.example.foodie.ServiceClass.BackgroundService;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import admin.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 

@@ -1,14 +1,20 @@
 package admin.example.foodie.models.RestaurantCreate;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class RestaurantUser {
 
-
+    @SerializedName("name")
     private String name;
+    @SerializedName("rest_id")
     private String rest_id;
+    @SerializedName("address")
     private String address;
+    @SerializedName("@passord")
     private String password;
+    @SerializedName("contactNos")
     private List<String> contactNos;
 
 
