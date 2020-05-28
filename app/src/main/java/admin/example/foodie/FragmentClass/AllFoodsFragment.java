@@ -91,12 +91,13 @@ public class AllFoodsFragment extends Fragment {
                     //Collections.copy(foods,restaurant.getFoods());
                     adapter = new FoodAdapter(getActivity());
                     adapter.setFood(foods);
-                    loadFood.setVisibility(View.GONE);
                       recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
                     recyclerView.setAdapter(adapter);
                     Log.i("foods", String.valueOf("hi"));
 
                 }
+                loadFood.setVisibility(View.GONE);
+
             }
 
         });
@@ -109,6 +110,7 @@ public class AllFoodsFragment extends Fragment {
             //   adapter.setFood(foods);
             recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
             recyclerView.setAdapter(adapter);
+
 
         } else {
             adapter.notifyDataSetChanged();

@@ -39,9 +39,9 @@ import retrofit2.Response;
 public class ForeGroundService extends Service {
     public static final String CHANNEL_ID = "ForegroundServiceDemo1";
 
-    int DEFAULT_SYNC_INTERVAL=30*1000;
+    int DEFAULT_SYNC_INTERVAL=5*1000;
     String token= WelcomeActvity.token;
-    List<Order> viewList;
+    List<Order> viewList=new ArrayList<>();
     private Handler mHandler;
 
 
@@ -59,14 +59,14 @@ public class ForeGroundService extends Service {
 
         mHandler = new Handler();
 
-        if (viewList==null)getPrefernce(getSharedPreferences("org.example.foodie",MODE_PRIVATE));
+        if (viewList==null)getPrefernce(getSharedPreferences("admin.example.foodie",MODE_PRIVATE));
+if(token==null) {
+    SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    getPrefernce(sharedPreferences);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        getPrefernce(sharedPreferences);
-
-        token = sharedPreferences.getString("token", null);
-
+    token = sharedPreferences.getString("token", null);
+}
         mHandler.post(runnableService);
         startInForeground();
         return START_STICKY;
@@ -135,7 +135,7 @@ public class ForeGroundService extends Service {
 
     private synchronized void syncData(String token) {
         FoodieClient foodieClient = ServiceGenerator.createService(FoodieClient.class);
-        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("org.example.foodie", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplication().getSharedPreferences("admin.example.foodie", MODE_PRIVATE);
 
         Call<List<Order>> call = foodieClient.getNotified(token);
         getPrefernce(sharedPreferences);
@@ -150,6 +150,7 @@ public class ForeGroundService extends Service {
                     if (response.body().size() != 0) {
                         Log.i("ResponseUser", response.body().get(0).getUser().getName());
                         for (int i=0;i<response.body().size();i++){
+
                             viewList.add(response.body().get(i));
                             sendNotification(response.body().get(i));
                         }
@@ -182,8 +183,8 @@ public class ForeGroundService extends Service {
             builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_launcher_background)
                     .setContentTitle("New Order")
-                    .setContentText(order.getUser().getName() + "\n" + "Total:" + getTotal(order.getFoodList()))
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setContentText("Customer"+" "+order.getUser().getName() + "  " + "ORDER Total:" + getTotal(order.getFoodList()))
+                    .setPriority(NotificationCompat.PRIORITY_HIGH)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true);
@@ -222,7 +223,7 @@ public class ForeGroundService extends Service {
 
     public  void getPrefernce(SharedPreferences sharedPreferences) {
 
-
+        if (viewList!=null)
         if (viewList.isEmpty()) {
 
             json = sharedPreferences.getString("orderItems", null);

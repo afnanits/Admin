@@ -4,6 +4,7 @@ package admin.example.foodie;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +35,7 @@ import admin.example.foodie.FragmentClass.AllFoodsFragment;
 import admin.example.foodie.FragmentClass.ContactUsFragments;
 import admin.example.foodie.FragmentClass.OrdersFragment;
 import admin.example.foodie.FragmentClass.UpdateFragments;
+import admin.example.foodie.ServiceClass.ForeGroundService;
 import admin.example.foodie.org.example.foodie.apifetch.FoodieClient;
 import admin.example.foodie.org.example.foodie.apifetch.ServiceGenerator;
 
@@ -73,47 +75,45 @@ public class MainActivity extends AppCompatActivity {
 
 //              progressBar.setVisibility(View.GONE);
 //
-
-        SharedPreferences sharedPreferences=getSharedPreferences("admin.example.foodie",MODE_PRIVATE);
-
-       rest_id=sharedPreferences.getString("rest_id",null);
+            SharedPreferences sharedPreferences = getSharedPreferences("admin.example.foodie", MODE_PRIVATE);
+            rest_id = sharedPreferences.getString("rest_id", null);
 
         Intent i = getIntent();
         token = i.getStringExtra("token");
         user = i.getStringExtra("name");
-if (getIntent().getStringExtra("notification")!=null) {
-    SharedPreferences sharedPreferencess = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
-    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-    token = sharedPreferencess.getString("token", null);
-}
-if (token != null) {
-            Log.i("TOKEN", token);
-            if (WelcomeActvity.getInstance() != null)
-                WelcomeActvity.getInstance().finish();
+            if (token==null){
+            SharedPreferences sharedPreferencess = getSharedPreferences("admin.example.foodie", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferencess.edit();
+
+            token = sharedPreferencess.getString("token", null);
         }
 
-
-
-//        if (user == null) {
-//            SharedPreferences sharedPreferences = getSharedPreferences("org.example.foodie", Context.MODE_PRIVATE);
-//
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//
-//            user = sharedPreferences.getString("name", null);
-//        }
-//
-//
         if (token != null) {
             Log.d("TOKEN", token);
             if (WelcomeActvity.getInstance() != null)
                 WelcomeActvity.getInstance().finish();
+
+
+
+            Intent serviceIntent = new Intent(this, ForeGroundService.class);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent);
+            } else {
+                startService(serviceIntent);
+            }
+
         }
-   Log.d("Token",token);
+        Log.d("Token", token);
         //BackgroundService service= new BackgroundService(getApplication());
 
 
-        startService(new Intent(this, BackgroundService.class));
+
+
+
+
+
+
 
         // Set a Toolbar to replace the ActionBar.
         toolbar = (Toolbar) findViewById(R.id.toolbar);

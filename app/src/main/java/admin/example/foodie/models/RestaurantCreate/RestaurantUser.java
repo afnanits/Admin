@@ -12,7 +12,7 @@ public class RestaurantUser {
     private String rest_id;
     @SerializedName("address")
     private String address;
-    @SerializedName("@passord")
+    @SerializedName("password")
     private String password;
     @SerializedName("contactNos")
     private List<String> contactNos;

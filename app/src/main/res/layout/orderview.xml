@@ -22,16 +22,27 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="Custtomer:"
+            android:id="@+id/name"
             android:textStyle="bold"
             android:textSize="@dimen/_10sdp"
             />
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/restaurantName"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textStyle="bold" android:background="@android:color/darker_gray"
+            android:paddingTop="@dimen/_18sdp" />
+
         <TextView
             android:id="@+id/restaurantName"
             android:textStyle="bold"
+            android:layout_toRightOf="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_70sdp"
             android:text="Restaurant name"
+            android:layout_marginLeft="@dimen/_5sdp"
 
             />
 
@@ -49,14 +60,14 @@
             android:layout_marginTop="@dimen/_38sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_100sdp"
+            android:layout_marginLeft="@dimen/_95sdp"
             android:text="Quantity" />
 
         <TextView
             android:id="@+id/itemPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_200sdp"
+            android:layout_marginLeft="@dimen/_195sdp"
             android:text="price"  android:layout_marginTop="@dimen/_38sdp"/>
 
 
@@ -82,6 +93,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Payment Mode"
+            android:id="@+id/paymentMode"
             android:layout_below="@id/total"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginLeft="@dimen/_10sdp"/>
@@ -91,7 +103,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/total"
-            android:layout_marginLeft="@dimen/_100sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_toRightOf="@+id/paymentMode"
             android:layout_marginTop="@dimen/_25sdp"
             android:text="date" />
         <androidx.recyclerview.widget.RecyclerView
@@ -99,6 +112,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_58sdp" />
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/foodList"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textStyle="bold" android:background="@android:color/darker_gray"
+             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STATUS:"
+            android:id="@+id/status"
+            android:layout_below="@+id/mode"
+            android:layout_margin="@dimen/_10sdp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="orderStatus"
+            android:id="@+id/orderStatus"
+            android:layout_below="@+id/mode"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textStyle="bold"
+
+            android:layout_toRightOf="@+id/status"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date:"
+            android:id="@+id/date"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_toRightOf="@+id/orderStatus"
+            android:layout_below="@+id/paymentMode"
+            android:layout_marginLeft="@dimen/_60sdp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="orderDate"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_toRightOf="@+id/date"
+            android:id="@+id/orderDate"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_below="@+id/paymentMode" />
+
+
+
 
     </RelativeLayout>
 

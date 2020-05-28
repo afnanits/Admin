@@ -48,12 +48,14 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
         holder.paymentMode.setText(items.get(position).getPayment().getMethod());
 
 
+
         adapter= new FoodListAdapter(context);
         adapter.setFood(items.get(position).getFoodList());
 
         holder.recyclerView.setLayoutManager(new GridLayoutManager(context,1));
         holder.recyclerView.setAdapter(adapter);
 
+        holder.status.setText(items.get(position).getStatus());
 
 
         //set Elements here
@@ -76,6 +78,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
             private TextView total;
             private RecyclerView recyclerView;
             private TextView paymentMode;
+            private TextView status;
+            private TextView orderDate;
 
         public CustomViewHolder(View view) {
             super(view);
@@ -84,7 +88,8 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.CustomView
             total=view.findViewById(R.id.total);
             recyclerView=view.findViewById(R.id.foodList);
             paymentMode=view.findViewById(R.id.mode);
-
+            status=view.findViewById(R.id.orderStatus);
+            orderDate=view.findViewById(R.id.orderDate);
 
         }
     }

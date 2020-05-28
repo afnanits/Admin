@@ -9,7 +9,6 @@ import admin.example.foodie.models.Order;
 import admin.example.foodie.models.OrderFood;
 import admin.example.foodie.models.ResponseRestaurant;
 import admin.example.foodie.models.ResponseUser;
-import admin.example.foodie.models.Restaurant;
 import admin.example.foodie.models.RestaurantCreate.RestaurantCreate;
 import admin.example.foodie.models.RestaurantLogIn.ResponseRestaurantUser;
 import admin.example.foodie.models.RestaurantLogIn.RestaurantUser;
@@ -42,7 +41,7 @@ public interface FoodieClient {
     Call<Foodid> postFood(@Header("Authorization") String token, @Body Food food);
     //create restaurant
     @POST("restaurant")
-    Call<ResponseUser> createRestaurant(@Body RestaurantCreate restaurantCreate);
+    Call<ResponseRestaurantUser> createRestaurant(@Body RestaurantCreate restaurantCreate);
     //log in user
     @POST("restaurant/login")
     Call<ResponseRestaurantUser> logInRestaurant(@Body RestaurantUser restaurantUser);
